@@ -1,0 +1,30 @@
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    maven { url "https://libraries.minecraft.net" }
+    maven { url = "https://maven.lenni0451.net/releases" }
+}
+
+dependencies {
+    include project(":Protocol")
+    include "net.lenni0451:LambdaEvents:2.0.4"
+    include "net.lenni0451.classtransform:core:1.9.1"
+    include "com.github.EvilCodeZ:JNI4J:cbb2d78148"
+    include 'com.google.code.gson:gson:2.10.1'
+    include 'com.mojang:brigadier:1.0.18'
+    include 'com.github.TerraForged:Noise2D:0.5.0'
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "de.evilcodez.classicserver.Main",
+                "Premain-Class": "de.evilcodez.classicserver.Main",
+                "Agent-Class": "de.evilcodez.classicserver.Main",
+                "Launcher-Agent-Class": "de.evilcodez.classicserver.Main",
+                "Can-Redefine-Classes": "true",
+                "Can-Retransform-Classes": "true",
+                "Multi-Release": "true"
+        )
+    }
+}

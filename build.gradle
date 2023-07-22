@@ -1,0 +1,34 @@
+
+subprojects {
+    apply plugin: 'java'
+
+    configurations {
+        include
+
+        implementation.extendsFrom include
+        api.extendsFrom include
+    }
+
+    java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+    compileJava.options.encoding = compileTestJava.options.encoding = javadoc.options.encoding = "UTF-8"
+
+    archivesBaseName = project.name
+    group = project.maven_group
+    version = project.maven_version
+
+    repositories {
+        mavenCentral()
+    }
+
+    jar {
+        dependsOn configurations.include
+        from {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            configurations.include.collect {
+                zipTree(it)
+            }
+        } {
+            exclude "META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA"
+        }
+    }
+}

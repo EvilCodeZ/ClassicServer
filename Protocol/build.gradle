@@ -1,0 +1,6 @@
+
+apply plugin: 'java-library'
+
+dependencies {
+    api 'io.netty:netty-all:4.1.95.Final'
+}
