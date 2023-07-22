@@ -17,6 +17,9 @@ import de.evilcodez.classicserver.utils.serverlist.BetacraftPing;
 import de.evilcodez.classicserver.world.World;
 import de.evilcodez.classicserver.world.WorldTransferTask;
 import de.evilcodez.classicserver.world.gen.IWorldGenerator;
+import net.lenni0451.lambdaevents.LambdaManager;
+import net.lenni0451.lambdaevents.generator.LambdaMetaFactoryGenerator;
+import net.lenni0451.reflect.JavaBypass;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +33,7 @@ public class MinecraftServer {
     private static MinecraftServer instance;
 
     private final Plugins plugins;
+    private LambdaManager eventManager;
     private ServerConnection serverConnection;
     private Thread serverThread;
     private Map<String, IWorldGenerator> worldGenerators;
@@ -57,6 +61,7 @@ public class MinecraftServer {
 
     public void startServer() {
         this.running = true;
+        this.eventManager = LambdaManager.threadSafe(new LambdaMetaFactoryGenerator(JavaBypass.TRUSTED_LOOKUP));
         final Timer timer = new Timer(20);
         this.serverThread = Thread.currentThread();
         this.worldGenerators = new HashMap<>();
@@ -395,5 +400,9 @@ public class MinecraftServer {
 
     public ServerMessages getServerMessages() {
         return serverMessages;
+    }
+
+    public LambdaManager getEventManager() {
+        return eventManager;
     }
 }

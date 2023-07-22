@@ -5,6 +5,7 @@ import de.evilcodez.classicprotocol.PacketEncoder;
 import de.evilcodez.classicprotocol.TcpConnection;
 import de.evilcodez.classicprotocol.packet.PacketRegistry;
 import de.evilcodez.classicserver.MinecraftServer;
+import de.evilcodez.classicserver.event.ChannelInitEvent;
 import de.evilcodez.classicserver.player.AbstractPlayer;
 import de.evilcodez.classicserver.player.PlayerEntity;
 import de.evilcodez.classicserver.player.ServerNetworkHandler;
@@ -45,6 +46,7 @@ public class ServerConnection {
                                 .addLast("decoder", new PacketDecoder(handler.getConnection()))
                                 .addLast("encoder", new PacketEncoder(handler.getConnection()))
                                 .addLast("packet_handler", handler.getConnection());
+                        MinecraftServer.getInstance().getEventManager().call(new ChannelInitEvent(handler, channel));
                     }
                 }).bind(new InetSocketAddress(serverIp, port)).syncUninterruptibly().channel();
     }
